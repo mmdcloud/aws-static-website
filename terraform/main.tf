@@ -118,7 +118,7 @@ resource "aws_route53_zone" "route53_zone" {
 }
 
 resource "aws_route53_health_check" "health_check" {
-  fqdn              = module.singapore-resources.lb-ip
+  fqdn              = aws_cloudfront_distribution.append_cloudfront_distribution.domain_name
   port              = 80
   type              = "HTTP"
   resource_path     = "/"
@@ -132,14 +132,11 @@ resource "aws_route53_health_check" "health_check" {
 
 # Route 53 Record Configuration 
 resource "aws_route53_record" "route53_record" {
-  zone_id         = aws_route53_zone.shiftme_route53_zone.zone_id
-  set_identifier  = "mumbai"
-  name            = var.subdomain_name
+  zone_id         = aws_route53_zone.route53_zone.zone_id
+  set_identifier  = "append"
+  name            = var.domain_name
   type            = "CNAME"
-  health_check_id = aws_route53_health_check.mumbai_health_check.id
-  failover_routing_policy {
-    type = "PRIMARY"
-  }
+  health_check_id = aws_route53_health_check.health_check.id  
   ttl     = 300
-  records = ["${module.mumbai-resources.lb-ip}"]
+  records = ["${aws_cloudfront_distribution.append_cloudfront_distribution.domain_name}"]
 }

@@ -8,7 +8,7 @@ variable "s3_name" {
   default = "theplayer007-append"
 }
 
-variable "domain" {
+variable "domain_name" {
   type    = string
   default = "mygcpprojects.xyz"
 }

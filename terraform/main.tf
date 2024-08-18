@@ -140,3 +140,17 @@ resource "aws_route53_record" "route53_record" {
   ttl     = 300
   records = ["${aws_cloudfront_distribution.append_cloudfront_distribution.domain_name}"]
 }
+
+# Issung SSL Certificate for the provided domain
+resource "aws_acm_certificate" "cert" {
+  domain_name       = var.domain_name
+  validation_method = "DNS"
+
+  tags = {
+    Environment = "test"
+  }
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}

@@ -135,10 +135,14 @@ resource "aws_route53_record" "route53_record" {
   zone_id         = aws_route53_zone.route53_zone.zone_id
   set_identifier  = "append"
   name            = var.domain_name
-  type            = "CNAME"
+  type            = "A"
   health_check_id = aws_route53_health_check.health_check.id  
   ttl     = 300
-  records = ["${aws_cloudfront_distribution.append_cloudfront_distribution.domain_name}"]
+  alias {
+    name                   = aws_cloudfront_distribution.append_cloudfront_distribution.domain_name
+    zone_id                = aws_cloudfront_distribution.append_cloudfront_distribution.hosted_zone_id
+    evaluate_target_health = true
+  }
 }
 
 # Issung SSL Certificate for the provided domain

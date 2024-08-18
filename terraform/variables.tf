@@ -10,5 +10,5 @@ variable "s3_name" {
 
 variable "domain_name" {
   type    = string
-  default = "mygcpprojects.xyz"
+  default = "domain"
 }

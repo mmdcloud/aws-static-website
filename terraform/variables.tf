@@ -7,8 +7,3 @@ variable "s3_name" {
   type    = string
   default = "theplayer007-append"
 }
-
-variable "domain_name" {
-  type    = string
-  default = "domain"
-}
